@@ -6475,6 +6475,7 @@ public final class Settings {
          */
         public static final String DOZE_TRIGGER_DOUBLETAP = "doze_trigger_doubletap";
 
+        /**
          * GameSpace: List of added games by user
          * @hide
          */
