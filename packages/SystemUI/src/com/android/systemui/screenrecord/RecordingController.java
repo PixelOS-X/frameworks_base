@@ -33,7 +33,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.android.internal.annotations.VisibleForTesting;
-import com.android.systemui.animation.DialogLaunchAnimator;
+import com.android.systemui.animation.DialogTransitionAnimator;
 import com.android.systemui.broadcast.BroadcastDispatcher;
 import com.android.systemui.dagger.SysUISingleton;
 import com.android.systemui.dagger.qualifiers.Main;
@@ -157,10 +157,10 @@ public class RecordingController
      *  If screen capturing is currently not allowed it will return a dialog
      *  that warns users about it. */
     public Dialog createScreenRecordDialog(Context context, FeatureFlags flags,
-                                           DialogLaunchAnimator dialogLaunchAnimator,
+                                           DialogTransitionAnimator dialogTransitionAnimator,
                                            ActivityStarter activityStarter,
                                            @Nullable Runnable onStartRecordingClicked) {
-        if (mFlags != null && mFlags.isEnabled(Flags.WM_ENABLE_PARTIAL_SCREEN_SHARING_ENTERPRISE_POLICIES)
+        if (mFlags.isEnabled(Flags.WM_ENABLE_PARTIAL_SCREEN_SHARING_ENTERPRISE_POLICIES)
                 && mDevicePolicyResolver.get()
                         .isScreenCaptureCompletelyDisabled(getHostUserHandle())) {
             return new ScreenCaptureDisabledDialog(mContext);
@@ -169,7 +169,7 @@ public class RecordingController
         mMediaProjectionMetricsLogger.notifyProjectionInitiated(
                 getHostUid(), SessionCreationSource.SYSTEM_UI_SCREEN_RECORDER);
 
-        return flags != null && flags.isEnabled(Flags.WM_ENABLE_PARTIAL_SCREEN_SHARING)
+        return flags.isEnabled(Flags.WM_ENABLE_PARTIAL_SCREEN_SHARING)
                 ? mDialogFactory.create(new ScreenRecordPermissionDialogDelegate(
                 getHostUserHandle(),
                 getHostUid(),
